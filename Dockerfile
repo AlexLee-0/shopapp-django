@@ -47,4 +47,7 @@ RUN mkdir -p /app/uploads /app/staticfiles
 EXPOSE 8000
 
 # Команда запуска через gunicorn
-CMD ["sh", "-c", "python3 manage.py migrate && python3 -m gunicorn mysite.wsgi:application --bind 0.0.0.0:8000 --workers 3"]
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+CMD ["/app/entrypoint.sh"]
