@@ -1,0 +1,20 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+  <div style="max-width: 600px; margin: 20px auto;">
+    <h1>Импорт продуктов из CSV</h1>
+
+    <form method="post" enctype="multipart/form-data" style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+      {% csrf_token %}
+
+      <div class="form-row">
+        {{ form.as_p }}
+      </div>
+
+      <div style="margin-top: 16px; display: flex; gap: 8px;">
+        <button type="submit" class="button default">Загрузить</button>
+        <a href="{% url 'admin:shopapp_product_changelist' %}" class="button">Отмена</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}

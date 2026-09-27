@@ -1,0 +1,56 @@
+{% extends 'myauth/base.html' %}
+
+{% block title %}Мой профиль{% endblock %}
+
+{% block body %}
+  <h1 class="h2 mb-4">Мой профиль</h1>
+
+  {% if user.is_authenticated %}
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-primary text-white">
+            <strong>Информация</strong>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Логин:</b> {{ user.username }}</li>
+            <li class="list-group-item"><b>Email:</b> {{ user.email|default:"—" }}</li>
+            <li class="list-group-item"><b>Bio:</b> {{ user.profile.bio|default:"—" }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-header bg-success text-white">
+            <strong>Аватар</strong>
+          </div>
+          <div class="card-body text-center">
+            {% if user.profile.avatar %}
+              <img src="{{ user.profile.avatar.url }}" class="img-fluid rounded mb-3"
+                   style="max-height: 200px;" alt="Avatar">
+            {% else %}
+              <p class="text-muted">Аватар не загружен</p>
+            {% endif %}
+
+            <form method="post" enctype="multipart/form-data" novalidate>
+              {% csrf_token %}
+              {% for field in form %}
+                <div class="mb-3 text-start">
+                  <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                  {{ field }}
+                  {% if field.errors %}
+                    <div class="invalid-feedback d-block">{{ field.errors.0 }}</div>
+                  {% endif %}
+                </div>
+              {% endfor %}
+              <button type="submit" class="btn btn-success w-100">Сохранить</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <div class="alert alert-warning">Вы не авторизованы. <a href="{% url 'myauth:login' %}">Войти</a></div>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'shopapp/base.html' %}
+
+{% block title %}Заказ #{{ object.pk }}{% endblock %}
+
+{% block body %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'shopapp:orders_list' %}">Заказы</a></li>
+      <li class="breadcrumb-item active">#{{ object.pk }}</li>
+    </ol>
+  </nav>
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h1 class="h4 mb-0">Заказ #{{ object.pk }}</h1>
+    </div>
+    <div class="card-body">
+      <ul class="list-group list-group-flush mb-3">
+        <li class="list-group-item">
+          <b>Пользователь:</b>
+          {% firstof object.user.first_name object.user.username %}
+        </li>
+        <li class="list-group-item">
+          <b>Промокод:</b> <code>{{ object.promocode }}</code>
+        </li>
+        <li class="list-group-item">
+          <b>Адрес доставки:</b> {{ object.delivery_address }}
+        </li>
+        <li class="list-group-item">
+          <b>Дата создания:</b> {{ object.created_at|date:"d.m.Y H:i" }}
+        </li>
+      </ul>
+
+      <h2 class="h5">Продукты в заказе</h2>
+      <ul class="list-group">
+        {% for product in object.products.all %}
+          <li class="list-group-item d-flex justify-content-between">
+            <span>{{ product.name }}</span>
+            <strong>{{ product.price }} ₽</strong>
+          </li>
+        {% empty %}
+          <li class="list-group-item text-muted">Нет продуктов</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="card-footer">
+      <a href="{% url 'shopapp:orders_list' %}" class="btn btn-outline-secondary">
+        ← К заказам
+      </a>
+    </div>
+  </div>
+{% endblock %}

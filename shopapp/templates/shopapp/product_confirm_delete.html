@@ -1,0 +1,43 @@
+{% extends 'shopapp/base.html' %}
+
+{% block title %}Архивировать {{ object.name }}{% endblock %}
+
+{% block body %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'shopapp:products_list' %}">Продукты</a></li>
+      <li class="breadcrumb-item">
+        <a href="{% url 'shopapp:product_details' pk=object.pk %}">{{ object.name }}</a>
+      </li>
+      <li class="breadcrumb-item active">Архивация</li>
+    </ol>
+  </nav>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="card border-danger shadow-sm">
+        <div class="card-header bg-danger text-white">
+          <h1 class="h4 mb-0">⚠ Архивировать продукт?</h1>
+        </div>
+
+        <div class="card-body">
+          <p>Вы уверены, что хотите архивировать продукт:</p>
+          <p class="fs-5 fw-bold">{{ object.name }}</p>
+          <p class="text-muted">
+            Продукт не будет удалён из базы, но перестанет отображаться в списке.
+          </p>
+
+          <form method="post">
+            {% csrf_token %}
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-danger">Да, архивировать</button>
+              <a href="{% url 'shopapp:product_details' pk=object.pk %}" class="btn btn-outline-secondary">
+                Отмена
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

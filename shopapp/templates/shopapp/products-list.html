@@ -1,0 +1,55 @@
+{% extends 'shopapp/base.html' %}
+
+{% block title %}Продукты{% endblock %}
+
+{% block body %}
+{% if perms.shopapp.add_product %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h2 mb-0">Продукты</h1>
+    {% if perms.shopapp.add_product %}
+      <a href="{% url 'shopapp:product_create' %}" class="btn btn-success">
+        + Добавить продукт
+      </a>
+    {% endif %}
+  </div>
+{% else %}
+  <h1 class="h2 mb-4">Продукты</h1>
+{% endif %}
+
+
+  {% if products %}
+    <div class="row">
+      {% for product in products %}
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            {% if product.preview %}
+              <img src="{{ product.preview.url }}"
+                   class="card-img-top"
+                   alt="{{ product.name }}"
+                   style="height: 200px; object-fit: cover;">
+            {% else %}
+              <div class="bg-secondary-subtle d-flex align-items-center justify-content-center"
+                   style="height: 200px;">
+                <span class="text-muted">Нет изображения</span>
+              </div>
+            {% endif %}
+
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">{{ product.name }}</h5>
+              <p class="card-text text-muted small">
+                {{ product.description|truncatechars:80 }}
+              </p>
+              <p class="fw-bold fs-5 mb-3 mt-auto">{{ product.price }} ₽</p>
+              <a href="{% url 'shopapp:product_details' pk=product.pk %}"
+                 class="btn btn-primary">
+                Подробнее
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info">Продуктов пока нет.</div>
+  {% endif %}
+{% endblock %}

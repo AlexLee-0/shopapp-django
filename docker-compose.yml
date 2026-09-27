@@ -1,0 +1,17 @@
+services:
+  web:
+    build: .
+    container_name: shopapp-web
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      DJANGO_DEBUG: "1"
+      SECRET_KEY: "${SECRET_KEY:-change-me-in-production}"
+      ALLOWED_HOSTS: "*"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./db.sqlite3:/app/db.sqlite3
+    command: >
+      sh -c "python manage.py migrate &&
+             gunicorn mysite.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120"

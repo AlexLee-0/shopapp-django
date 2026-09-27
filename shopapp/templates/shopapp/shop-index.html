@@ -1,0 +1,50 @@
+{% extends 'shopapp/base.html' %}
+
+{% block title %}Магазин{% endblock %}
+
+{% block body %}
+  <div class="p-5 mb-4 bg-white rounded-3 shadow-sm">
+    <div class="container-fluid py-3">
+      <h1 class="display-5 fw-bold">Добро пожаловать в магазин!</h1>
+      <p class="fs-5 text-muted">Учебный проект интернет-магазина на Django.</p>
+      <div class="d-flex gap-2 flex-wrap mt-3">
+        <a href="{% url 'shopapp:products_list' %}" class="btn btn-primary btn-lg">
+          Посмотреть продукты
+        </a>
+        <a href="{% url 'shopapp:orders_list' %}" class="btn btn-outline-secondary btn-lg">
+          Мои заказы
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row text-center g-3">
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">🛍 Продукты</h5>
+          <p class="card-text text-muted">Каталог товаров магазина</p>
+          <a href="{% url 'shopapp:products_list' %}" class="btn btn-sm btn-primary">Открыть</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">📦 Заказы</h5>
+          <p class="card-text text-muted">История ваших заказов</p>
+          <a href="{% url 'shopapp:orders_list' %}" class="btn btn-sm btn-primary">Открыть</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">👤 Профиль</h5>
+          <p class="card-text text-muted">Личный кабинет</p>
+          <a href="{% url 'myauth:about-me' %}" class="btn btn-sm btn-primary">Открыть</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

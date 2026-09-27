@@ -1,0 +1,36 @@
+{% extends 'shopapp/base.html' %}
+
+{% block title %}Группы{% endblock %}
+
+{% block body %}
+  <h1 class="h2 mb-4">Группы пользователей</h1>
+
+  {% if not groups %}
+    <div class="alert alert-info">Групп пока нет.</div>
+  {% else %}
+    <div class="row">
+      {% for group in groups %}
+        <div class="col-md-6 mb-4">
+          <div class="card shadow-sm h-100">
+            <div class="card-header bg-primary text-white">
+              <strong>{{ group.name }}</strong>
+            </div>
+            <div class="card-body">
+              <p class="mb-2"><b>Права:</b></p>
+              <ul class="list-group list-group-flush">
+                {% for permission in group.permissions.all %}
+                  <li class="list-group-item py-1">
+                    {{ permission.name }}
+                    <code class="text-muted small">{{ permission.codename }}</code>
+                  </li>
+                {% empty %}
+                  <li class="list-group-item text-muted">Нет прав</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}
